@@ -1,0 +1,63 @@
+﻿create table account (
+	username 	varchar(16) 	not null primary key,
+	password 	varchar(16) 	not null,
+	name		nvarchar(50)	not null
+)
+
+create table mark (
+	mark varchar(2) not null primary key,
+	min float not null,
+	max float not null
+)
+
+create table topic (
+	topicid	int identity(1,1)	not null primary key,
+	topicName	nvarchar(500)	not null,
+	typeoftopic nvarchar(9)		not null
+)
+
+create table topicdetail (
+	id int identity(1,1)	    not null primary key,
+	topicid 	int 			not null,
+    mark		int				    null,
+	status		nvarchar(50)	not null,
+	studentid	varchar(9)		not null,
+	foreign key (topicid) references topic(topicid),
+	foreign key (studentid) references student(studentid)
+)
+
+create table student (
+	studentid	varchar(8)		not null primary key,
+	studentname	nvarchar(50)	not null,
+	specializedid varchar(9)	not null,
+)
+
+create table guider (
+	guiderid	varchar(10)		not null,
+	guidername	nvarchar(50)	not null,
+	role		nvarchar(15)	not null,
+	topicid		int				not null,
+	primary key (guiderid, topicid),
+	foreign key (topicid) references topic(topicid)
+)
+
+create table marker (
+	markerid	varchar(10)		not null,
+	markername	nvarchar(50)	not null,
+	mark		int				not null,
+	comment		nvarchar(500)	    null,
+	id		    int				not null,
+	primary key (markerid, mark, id),
+	foreign key (id) references topicdetail(id)
+)
+
+create table time (
+	schoolyear	varchar(9)		not null,
+	semester	int				not null,
+    date        date            not null,
+	topicid		int				not null,
+	primary key (topicid, schoolyear, semester),
+	foreign key (topicid) references topic(topicid)
+)
+
+insert into account	values ('admin','admin',N'Trần Văn Hoàng')
